@@ -16,4 +16,21 @@
         <url-pattern>/first-servlet</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.html</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/not_found</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/forbidden</location>
+    </error-page>
 </web-app>
