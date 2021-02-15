@@ -20,10 +20,10 @@
 
 <div class="container">
     <div class="row py-2">
-        <c:url value="/product/create" var="userCreateUrl"/>
+        <c:url value="/user/create" var="userCreateUrl"/>
 
         <div class="col-12">
-            <a class="btn btn-primary" href="${userCreateUrl}">Add Product</a>
+            <a class="btn btn-primary" href="${userCreateUrl}">Add User</a>
         </div>
 
         <div class="col-12">
@@ -32,15 +32,14 @@
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <%-- <%for (Product product : (List<Product>) request.getAttribute("products")) --%>
 
-                <c:forEach var="user" items="${requestScope.products}">
+                <c:forEach var="user" items="${requestScope.users}">
 
                     <tr>
                         <th scope="row">
@@ -48,22 +47,16 @@
                         </th>
                         <td>
                             <c:out value="${user.name}"/>
-                                <%--                     <%= product.getName() %> --%>
                         </td>
                         <td>
-                            <c:out value="${user.description}"/>
-                                <%-- <%= product.getDescription()%>--%>
+                            <c:out value="${user.email}"/>
                         </td>
                         <td>
-                            $<c:out value="${user.price}"/>
-                                <%-- $<%= product.getPrice()%>--%>
-                        </td>
-                        <td>
-                            <c:url value="/product/edit" var="userEditUrl">
+                            <c:url value="/user/edit" var="userEditUrl">
                                 <c:param name="id" value="${user.id}"/>
                             </c:url>
                             <a class="btn btn-success" href="${userEditUrl}"><i class="fas fa-edit"></i></a>
-                            <c:url value="/product/delete" var="userDeleteUrl">
+                            <c:url value="/user/delete" var="userDeleteUrl">
                                 <c:param name="id" value="${user.id}"/>
                             </c:url>
                             <a class="btn btn-danger" href="${userDeleteUrl}"><i class="far fa-trash-alt"></i></a>

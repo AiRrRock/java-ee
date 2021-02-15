@@ -4,6 +4,8 @@ public enum Pages {
     Main("Главная", "main"),
     Catalog("Каталог", "catalog"),
     Product("Товар", "product"),
+    Category("Категория", "category"),
+    User("Пользователь", "user"),
     Order("Заказ", "order"),
     Cart("Корзина", "cart");
 
