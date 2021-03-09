@@ -1,9 +1,28 @@
 package ru.geekbrains.persist;
 
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "categories")
+@NamedQueries({
+        @NamedQuery(name = "findAllCategories", query = "from Category"),
+        @NamedQuery(name = "countAllCategories", query = "select count(*) from Category "),
+        @NamedQuery(name = "deleteCategoryById", query = "delete from Category c where c.id = :id")
+})
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @Column(length = 1024)
     private String description;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "category")
+    private List<Product> products;
 
     public Category() {
     }
@@ -12,6 +31,7 @@ public class Category {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.products = products;
     }
 
     public Long getId() {
@@ -36,5 +56,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

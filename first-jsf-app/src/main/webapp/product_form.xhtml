@@ -35,6 +35,12 @@
                                      value="#{productController.product.price}"
                                      placeholder="Enter price"/>
                     </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <h:inputText styleClass="form-control" id="category"
+                                     value="#{productController.product.category}"
+                                     placeholder="Enter category"/>
+                    </div>
                     <h:commandButton value="Submit" styleClass="btn btn-primary"
                                      action="#{productController.saveProduct()}"/>
                 </h:form>

@@ -12,11 +12,10 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @ApplicationScoped
-public class CategoryRepository {
+public class OrderRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
 
@@ -33,10 +32,9 @@ public class CategoryRepository {
             try {
                 ut.begin();
 
-                saveOrUpdate(new Category(null, "Category 1", "Category description 1"));
-                saveOrUpdate(new Category(null, "Category 2", "Category description 2"));
-                saveOrUpdate(new Category(null, "Category 3", "Category description 3"));
-                saveOrUpdate(new Category(null, "Category 4", "Category description 4"));
+                saveOrUpdate(new MyOrder());
+                saveOrUpdate(new MyOrder());
+                saveOrUpdate(new MyOrder());
 
                 ut.commit();
             } catch (Exception ex) {
@@ -46,33 +44,31 @@ public class CategoryRepository {
         }
     }
 
-    private final AtomicLong identity = new AtomicLong();
 
-    public List<Category> findAll() {
-        return em.createNamedQuery("findAllCategories", Category.class)
+    public List<MyOrder> findAll() {
+        return em.createNamedQuery("findAllOrders", MyOrder.class)
                 .getResultList();
     }
 
-    public Category findById(Long id) {
-        return em.find(Category.class, id);
+    public MyOrder findById(Long id) {
+        return em.find(MyOrder.class, id);
     }
 
     public Long countAll() {
-        return em.createNamedQuery("countAllCategories", Long.class)
-                .getSingleResult();
+        return em.createNamedQuery("countAllOrders", MyOrder.class).getSingleResult().getId();
     }
 
     @Transactional
-    public void saveOrUpdate(Category category) {
-        if (category.getId() == null) {
-            em.persist(category);
+    public void saveOrUpdate(MyOrder orders) {
+        if (orders.getId() == null) {
+            em.persist(orders);
         }
-        em.merge(category);
+        em.merge(orders);
     }
 
     @Transactional
     public void deleteById(Long id) {
-        em.createNamedQuery("deleteCategoryById")
+        em.createNamedQuery("deleteOrderById")
                 .setParameter("id", id)
                 .executeUpdate();
     }
