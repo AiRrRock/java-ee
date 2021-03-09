@@ -1,34 +1,36 @@
 package ru.geekbrains.controller;
 
-import ru.geekbrains.persist.Product;
+import ru.geekbrains.service.CartService;
+import ru.geekbrains.service.ProductRepr;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Named
 @SessionScoped
 public class CartController implements Serializable {
 
-    private Set<Product> productMap = new HashSet<>();
-    private AtomicLong current = new AtomicLong(0);
+    @EJB
+    private CartService cartService;
 
-    public String addToCart(Product product) {
-        productMap.add(product);
-        return "/product.xhtml?faces-redirect-true";
+    // TODO
+    private final Map<Long, ProductRepr> productMap = new HashMap<>();
+
+    public void addToCart(ProductRepr product) {
+        productMap.put(product.getId(), product);
     }
 
-    public Collection<Product> getAllProducts() {
-        return productMap;
+    public void removeFromCart(ProductRepr product) {
+        productMap.remove(product.getId());
     }
 
-    public String removeFromCart(Product product) {
-        productMap.remove(product);
-        if (productMap.isEmpty()) {
-            return "/product.xhtml?faces-redirect-true";
-        }
-        return "/cart.xhtml?faces-redirect-true";
+    public List<ProductRepr> getAllProducts() {
+        return new ArrayList<>(productMap.values());
     }
 }

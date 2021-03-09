@@ -7,3 +7,4 @@
 .idea/**/compiler.xml
 .idea
 /**/target
+*.iml
