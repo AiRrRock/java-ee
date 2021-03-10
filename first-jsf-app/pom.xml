@@ -86,11 +86,11 @@
             <version>2.0.0.Final</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
     <build>
         <finalName>first-jsf-app</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>

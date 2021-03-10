@@ -1,12 +1,11 @@
 package ru.geekbrains.controller;
 
 import ru.geekbrains.persist.Category;
-import ru.geekbrains.persist.CategoryRepository;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.service.CategoryRepr;
+import ru.geekbrains.service.CategoryService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -15,39 +14,39 @@ import java.util.List;
 @SessionScoped
 public class CategoryController implements Serializable {
 
-    @Inject
-    private CategoryRepository productRepository;
+    @EJB
+    private CategoryService categoryService;
 
-    private Category product;
+    private CategoryRepr product;
 
-    public Category getProduct() {
+    public CategoryRepr getProduct() {
         return product;
     }
 
-    public void setProduct(Category product) {
+    public void setProduct(CategoryRepr product) {
         this.product = product;
     }
 
     public String createProduct() {
-        this.product = new Category();
+        this.product = new CategoryRepr();
         return "/category_form.xhtml?faces-redirect-true";
     }
 
-    public List<Category> getAllProducts() {
-        return productRepository.findAll();
+    public List<CategoryRepr> getAllProducts() {
+        return categoryService.findAll();
     }
 
-    public String editProduct(Category product) {
+    public String editProduct(CategoryRepr product) {
         this.product = product;
         return "/category_form.xhtml?faces-redirect-true";
     }
 
-    public void deleteProduct(Category product) {
-        productRepository.deleteById(product.getId());
+    public void deleteProduct(CategoryRepr product) {
+        categoryService.deleteById(product.getId());
     }
 
     public String saveProduct() {
-        productRepository.saveOrUpdate(product);
+        categoryService.saveOrUpdate(product);
         return "/category.xhtml?faces-redirect-true";
     }
 }

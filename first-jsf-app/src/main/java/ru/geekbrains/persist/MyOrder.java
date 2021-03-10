@@ -1,5 +1,7 @@
 package ru.geekbrains.persist;
 
+import ru.geekbrains.service.OrderRepr;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +25,12 @@ public class MyOrder {
     public MyOrder() {
     }
 
-    public MyOrder(Long id, String name, List<Product> products) {
+    public MyOrder(OrderRepr order) {
+        this.id = order.getId() ;
+        this.products = order.getProducts();
+    }
+
+    public MyOrder(Long id, List<Product> products) {
         this.id = id;
         this.products = products;
     }

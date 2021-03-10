@@ -27,7 +27,18 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote 
     @Override
     public List<ProductRepr> findAll() {
         return productRepository.findAll().stream()
-                .map(ProductRepr::new)
+                .map(product -> {
+                    ProductRepr repr = new ProductRepr();
+                    repr.setId(product.getId());
+                    repr.setDescription(product.getDescription());
+                    repr.setName(product.getName());
+                    repr.setPrice(product.getPrice());
+                    if (product.getCategory() != null) {
+                        repr.setCategoryId(product.getCategory().getId());
+                        repr.setCategoryName(product.getCategory().getName());
+                    }
+                    return repr;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -35,7 +46,16 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote 
     public ProductRepr findById(Long id) {
         Product product = productRepository.findById(id);
         if (product != null) {
-            return new ProductRepr(product);
+            ProductRepr repr = new ProductRepr();
+            repr.setId(product.getId());
+            repr.setDescription(product.getDescription());
+            repr.setName(product.getName());
+            repr.setPrice(product.getPrice());
+            if (product.getCategory() != null) {
+                repr.setCategoryId(product.getCategory().getId());
+                repr.setCategoryName(product.getCategory().getName());
+            }
+            return repr;
         }
         return null;
     }
@@ -48,7 +68,7 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote 
     @TransactionAttribute
     @Override
     public void saveOrUpdate(ProductRepr product) {
-        logger.info("Saving product with id {}" , product.getId());
+        logger.info("Saving product with id {}", product.getId());
 
         Category category = null;
         if (product.getCategoryId() != null) {
