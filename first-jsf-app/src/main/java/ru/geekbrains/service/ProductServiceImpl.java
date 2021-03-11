@@ -6,15 +6,18 @@ import ru.geekbrains.persist.Category;
 import ru.geekbrains.persist.CategoryRepository;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.rest.ProductServiceRest;
 
 import javax.ejb.EJB;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-public class ProductServiceImpl implements ProductService, ProductServiceRemote {
+@Remote(ProductServiceRemote.class)
+public class ProductServiceImpl implements ProductService, ProductServiceRemote, ProductServiceRest {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
@@ -27,43 +30,74 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote 
     @Override
     public List<ProductRepr> findAll() {
         return productRepository.findAll().stream()
-                .map(product -> {
-                    ProductRepr repr = new ProductRepr();
-                    repr.setId(product.getId());
-                    repr.setDescription(product.getDescription());
-                    repr.setName(product.getName());
-                    repr.setPrice(product.getPrice());
-                    if (product.getCategory() != null) {
-                        repr.setCategoryId(product.getCategory().getId());
-                        repr.setCategoryName(product.getCategory().getName());
-                    }
-                    return repr;
-                })
+                .map(this::buildProductRepr)
                 .collect(Collectors.toList());
+    }
+
+    private ProductRepr buildProductRepr(Product product) {
+        ProductRepr repr = new ProductRepr();
+
+        repr.setId(product.getId());
+        repr.setName(product.getName());
+        repr.setDescription(product.getDescription());
+        repr.setPrice(product.getPrice());
+        Category category = product.getCategory();
+        repr.setCategoryId(category != null ? category.getId() : null);
+        repr.setCategoryName(category != null ? category.getName() : null);
+
+        return repr;
     }
 
     @Override
     public ProductRepr findById(Long id) {
         Product product = productRepository.findById(id);
         if (product != null) {
-            ProductRepr repr = new ProductRepr();
-            repr.setId(product.getId());
-            repr.setDescription(product.getDescription());
-            repr.setName(product.getName());
-            repr.setPrice(product.getPrice());
-            if (product.getCategory() != null) {
-                repr.setCategoryId(product.getCategory().getId());
-                repr.setCategoryName(product.getCategory().getName());
-            }
-            return repr;
+            return buildProductRepr(product);
         }
         return null;
+    }
+
+    @Override
+    public List<ProductRepr> findByName(String name) {
+        List<Product> productList = productRepository.findByName(name);
+        if (productList == null || productList.isEmpty()) {
+            return null;
+        } else {
+            return productList.stream().map(this::buildProductRepr).collect(Collectors.toList());
+        }
     }
 
     @Override
     public Long countAll() {
         return productRepository.countAll();
     }
+
+    @Override
+    public void insert(ProductRepr product) {
+        if (product.getId() != null) {
+            throw new IllegalArgumentException();
+        }
+        saveOrUpdate(product);
+    }
+
+    @Override
+    public void update(ProductRepr product) {
+        if (product.getId() == null) {
+            throw new IllegalArgumentException();
+        }
+        saveOrUpdate(product);
+    }
+
+    @Override
+    public void addCategoryById(Long id, Long id2) {
+        if (productRepository.findById(id) == null || categoryRepository.findById(id2) == null) {
+            throw new IllegalArgumentException();
+        }
+        Product pr = productRepository.findById(id);
+        pr.setCategory(categoryRepository.findById(id2));
+        productRepository.saveOrUpdate(pr);
+    }
+
 
     @TransactionAttribute
     @Override

@@ -28,9 +28,8 @@
 
         <dependency>
             <groupId>ru.geekbrains</groupId>
-            <artifactId>product-remote</artifactId>
+            <artifactId>product-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <classifier>classes</classifier>
         </dependency>
     </dependencies>
 

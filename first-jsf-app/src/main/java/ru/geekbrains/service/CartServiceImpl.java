@@ -1,6 +1,8 @@
 package ru.geekbrains.service;
 
 
+import ru.geekbrains.rest.CategoryServiceRest;
+
 import javax.ejb.Stateful;
 import java.util.ArrayList;
 import java.util.HashMap;
