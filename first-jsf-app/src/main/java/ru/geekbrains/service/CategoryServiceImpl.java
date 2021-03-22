@@ -62,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService, CategoryServiceRest
     @Override
     public void saveOrUpdate(CategoryRepr category) {
         logger.info("Saving category with id {}" , category.getId());
-        categoryRepository.saveOrUpdate(new Category(category));
+        categoryRepository.saveOrUpdate(new Category(category.getName()));
     }
 
     @TransactionAttribute

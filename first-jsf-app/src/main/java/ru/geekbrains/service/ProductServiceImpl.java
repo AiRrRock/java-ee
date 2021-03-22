@@ -12,12 +12,14 @@ import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
+import javax.jws.WebService;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
+@WebService(endpointInterface = "ru.geekbrains.service.ProductServiceWs", serviceName = "ProductService")
 @Remote(ProductServiceRemote.class)
-public class ProductServiceImpl implements ProductService, ProductServiceRemote, ProductServiceRest {
+public class ProductServiceImpl implements ProductService, ProductServiceRemote, ProductServiceRest, ProductServiceWs {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
@@ -58,16 +60,6 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote,
     }
 
     @Override
-    public List<ProductRepr> findByName(String name) {
-        List<Product> productList = productRepository.findByName(name);
-        if (productList == null || productList.isEmpty()) {
-            return null;
-        } else {
-            return productList.stream().map(this::buildProductRepr).collect(Collectors.toList());
-        }
-    }
-
-    @Override
     public Long countAll() {
         return productRepository.countAll();
     }
@@ -88,21 +80,10 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote,
         saveOrUpdate(product);
     }
 
-    @Override
-    public void addCategoryById(Long id, Long id2) {
-        if (productRepository.findById(id) == null || categoryRepository.findById(id2) == null) {
-            throw new IllegalArgumentException();
-        }
-        Product pr = productRepository.findById(id);
-        pr.setCategory(categoryRepository.findById(id2));
-        productRepository.saveOrUpdate(pr);
-    }
-
-
     @TransactionAttribute
     @Override
     public void saveOrUpdate(ProductRepr product) {
-        logger.info("Saving product with id {}", product.getId());
+        logger.info("Saving product with id {}" , product.getId());
 
         Category category = null;
         if (product.getCategoryId() != null) {
