@@ -6,7 +6,7 @@ module add \
   --resources="D:\\Java EE\\mysql-connector-java-8.0.23\\mysql-connector-java-8.0.23.jar"
 
 # 2. creating driver section in standalone.xml config
-/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql.driver, driver-class-name=com.mysql.jdbc.Driver )
+/subsystem=datasources/jdbc-driver=mysql:add( driver-name=mysql, driver-module-name=com.mysql.driver, driver-class-name=com.mysql.jdbc.Driver )
 
-# 3. restartinen g Wildfly server
+# 3. restarting Wildfly server
 :reload

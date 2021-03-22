@@ -6,8 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="first-web-app" />
         <module name="remote-client" />
+        <module name="product-service-api" />
+        <module name="first-web-app" />
         <module name="first-jsf-app" />
       </profile>
     </annotationProcessing>
