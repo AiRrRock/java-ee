@@ -21,12 +21,6 @@ public interface ProductServiceRest {
     ProductRepr findById(@PathParam("id") Long id);
 
     @GET
-    @Path("/{name}")
-    @Produces(MediaType.APPLICATION_JSON)
-    List<ProductRepr> findByName(@PathParam("name") String name);
-
-
-    @GET
     @Path("/count")
     @Produces(MediaType.APPLICATION_JSON)
     Long countAll();
@@ -38,10 +32,6 @@ public interface ProductServiceRest {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     void update(ProductRepr product);
-
-    @GET
-    @Path("/{id}/{categoryId}")
-    void addCategoryById(@PathParam("id") Long id, @PathParam("categoryId") Long id2);
 
     @DELETE
     @Path("/{id}")

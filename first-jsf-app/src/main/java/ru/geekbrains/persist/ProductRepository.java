@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
 @Stateless
 public class ProductRepository {
@@ -33,10 +32,6 @@ public class ProductRepository {
     public List<Product> findAll() {
         return em.createNamedQuery("findAllProducts", Product.class)
                 .getResultList();
-    }
-
-    public List<Product> findByName(String name) {
-        return findAll().stream().filter(p -> p.getName().equals(name)).collect(Collectors.toList());
     }
 
     public Product findById(Long id) {

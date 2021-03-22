@@ -1,7 +1,5 @@
 package ru.geekbrains.persist;
 
-import ru.geekbrains.service.CategoryRepr;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -29,10 +27,6 @@ public class Category {
     @Column
     private String name;
 
-
-    @Column
-    private String description;
-
     @OneToMany(mappedBy = "category")
     private List<Product> products;
 
@@ -41,13 +35,6 @@ public class Category {
 
     public Category(String name) {
         this.name = name;
-    }
-
-    public Category(CategoryRepr category) {
-        this.name = category.getName();
-        this.id = category.getId();
-        this.description = category.getDescription();
-        this.products = category.getProductList();
     }
 
     public Long getId() {
@@ -72,13 +59,5 @@ public class Category {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

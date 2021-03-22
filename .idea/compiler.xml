@@ -9,6 +9,7 @@
         <module name="remote-client" />
         <module name="product-service-api" />
         <module name="first-web-app" />
+        <module name="ws-client" />
         <module name="first-jsf-app" />
       </profile>
     </annotationProcessing>
