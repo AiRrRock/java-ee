@@ -21,14 +21,20 @@
                 <h:link styleClass="nav-link" value="Cart" outcome="/cart"/>
             </li>
             <li class="nav-item #{pageName == 'User' ? 'active' : ''}">
-                <h:link styleClass="nav-link" value="User" outcome="/admin/user"/>
+                <h:form rendered="#{request.isUserInRole('ADMIN')}">
+                    <h:link styleClass="nav-link" value="User" outcome="/admin/user"/>
+                </h:form>
             </li>
+
             <li class="nav-item #{pageName == 'Role' ? 'active' : ''}">
-                <h:link styleClass="nav-link" value="Role" outcome="/admin/role"/>
+                <h:form rendered="#{request.isUserInRole('ADMIN')}">
+                    <h:link styleClass="nav-link" value="Role" outcome="/admin/role"/>
+                </h:form>
             </li>
             <li class="nav-item">
                 <h:form rendered="#{request.userPrincipal != null}">
-                    <h:commandButton action="#{productController.logout()}" value="Logout #{request.userPrincipal.name}" />
+                    <h:commandButton action="#{productController.logout()}"
+                                     value="Logout #{request.userPrincipal.name}"/>
                 </h:form>
                 <h:link styleClass="nav-link"
                         rendered="#{request.userPrincipal == null}"

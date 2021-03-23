@@ -27,10 +27,10 @@ public class UserRepository implements Serializable {
 
     @TransactionAttribute
     public User saveOrUpdate(User user) {
-        if (user.getId() == null) {
+/*        if (user.getId() == null) {
             em.persist(user);
             return user;
-        }
+        }*/
         return em.merge(user);
     }
 

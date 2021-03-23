@@ -34,4 +34,12 @@ public class RoleRepository {
         return em.createQuery("select count(*) from Role", Long.class)
                 .getSingleResult();
     }
+
+    public void saveOrUpdate(Role product) {
+        if (product.getId() <= 0) {
+            em.persist(product);
+        }
+        em.merge(product);
+    }
+
 }
