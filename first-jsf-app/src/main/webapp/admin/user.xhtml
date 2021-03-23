@@ -17,12 +17,47 @@
 </h:head>
 
 <h:body>
+
+    <f:event listener="#{userController.preloadData}" type="preRenderView"/>
+
     <ui:include src="/WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="User"/>
     </ui:include>
 
+
     <div class="container">
-        User List
+        <div class="row py-2">
+            <h:form id="productForm">
+                <div class="col-12">
+                    <h:commandButton value="Add " styleClass="btn btn-primary"
+                                     action="#{userController.createProduct()}"/>
+                </div>
+
+                <div class="col-12">
+                    <h:dataTable value="#{userController.allProducts}" var="product"
+                                 styleClass="table table-bordered my-2">
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{product.login}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Groups</f:facet>
+                            #{product.roles}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+
+                            <pp:commandButton styleClass="btn btn-success"
+                                              icon="fas fa-edit"
+                                              action="#{userController.editProduct(product)}"/>
+                        </h:column>
+                    </h:dataTable>
+
+                </div>
+
+            </h:form>
+        </div>
     </div>
 
 </h:body>

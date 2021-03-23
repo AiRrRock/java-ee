@@ -17,12 +17,41 @@
 </h:head>
 
 <h:body>
+
+    <f:event listener="#{roleController.preloadData}" type="preRenderView"/>
+
     <ui:include src="/WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="Role"/>
     </ui:include>
 
     <div class="container">
-        Role List
+        <div class="row py-2">
+            <h:form id="productForm">
+                <div class="col-12">
+                    <h:commandButton value="Add " styleClass="btn btn-primary"
+                                     action="#{roleController.createProduct()}"/>
+                </div>
+
+                <div class="col-12">
+                    <h:dataTable value="#{roleController.allProducts}" var="product"
+                                 styleClass="table table-bordered my-2">
+                        <h:column>
+                            <f:facet name="header">Id</f:facet>
+                            #{product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Actions</f:facet>
+
+                            <pp:commandButton styleClass="btn btn-success"
+                                              icon="fas fa-edit"
+                                              action="#{roleController.editProduct(product)}"/>
+                        </h:column>
+                    </h:dataTable>
+
+                </div>
+
+            </h:form>
+        </div>
     </div>
 
 </h:body>

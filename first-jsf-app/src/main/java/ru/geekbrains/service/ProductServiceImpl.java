@@ -95,6 +95,7 @@ public class ProductServiceImpl implements ProductService, ProductServiceRemote,
     @TransactionAttribute
     @Override
     public void deleteById(Long id) {
+
         productRepository.deleteById(id);
     }
 }
